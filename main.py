@@ -1,15 +1,51 @@
-# PROJECT I
-MTH = int(input("Insert your MTH-101 score >> "))
-CSC = int(input("Insert your CSC-101 score >> "))
-CHM = int(input("Insert your CHM-101 score >> "))
-PHY = int(input("Insert your PHY-101 score >> "))
-PHY_2 = int(input("Insert your PHY-103 score >> "))
-STA = int(input("Insert your STA-101 score >> "))
-GST = int(input("Insert your GST-103 score >> "))
-GST_2 = int(input("Insert your GST-105 score >> "))
-subjects = [MTH, CSC, CHM, PHY, PHY_2, STA, GST, GST_2]
-total = sum(subjects)
-average = total / len(subjects)
+# Making a Dictionary of subjects and Credit unit.
+subject_cu = {
+    "MTH-101": 3.5,
+    "CSC-101": 3.5,
+    "CHM-101": 3.5,
+    "PHY-101": 3.5,
+    "PHY-103": 3.5,
+    "STA-105": 3.5,
+    "GST-103": 3.5,
+    "GST-105": 3.5,
+}
 
-percentage = average * 100
-print(f"Your G.P.A is {percentage}")
+# Making a Dictionary to compare the letter grade and grade point.
+letter_grade_to_grade_point = {
+    "A": 4.00,
+    "AB": 3.50,
+    "B": 3.25,
+    "BC": 3.00,
+    "C": 2.75,
+    "CD": 2.50,
+    "D": 2.25,
+    "E": 2.00,
+    "F": 0.00
+}
+
+# Seperating the keys (courses) from the values(credit unit).
+for course, credit_unit in subject_cu.items():
+    score = int(input(f"Enter score of {course}: "))
+
+    # determine the corresponding letter grade for the score
+    if score >= 75:
+        letter_grade = "A"
+    elif score >= 70:
+        letter_grade = "AB"
+    elif score >= 65:
+        letter_grade = "B"
+    elif score >= 60:
+        letter_grade = "BC"
+    elif score >= 55:
+        letter_grade = "C"
+    elif score >= 50:
+        letter_grade = "CD"
+    elif score >= 45:
+        letter_grade = "D"
+    elif score >= 40:
+        letter_grade = "E"
+    else:
+        letter_grade = "F"
+    
+    # To display the course, examination score, and letter_grade.    
+    print(f"{course}: {score} {letter_grade}")
