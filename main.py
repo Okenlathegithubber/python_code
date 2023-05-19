@@ -1,32 +1,27 @@
-total_credit_unit = 28
-
-#  course titles and credit unit
-subject_cu = {
-    "MTH-101": 3.5,
-    "CSC-101": 3.5,
-    "CHM-101": 3.5,
-    "PHY-101": 3.5,
-    "PHY-103": 3.5,
-    "STA-105": 3.5,
-    "GST-103": 3.5,
-    "GST-105": 3.5
-}
-
-
-# course titles and corresponding scores
 courses = {
-    "MTH-101": int(input("Insert MTH-101 score >> ")),
-    "CSC-101": int(input("Insert CSC-101 score >> ")),
-    "CHM-101": int(input("Insert CHM-101 score >> ")),
-    "PHY-101": int(input("Insert PHY-101 score >> ")),
-    "PHY-103": int(input("Insert PHY-103 score >> ")),
-    "STA-105": int(input("Insert STA-105 score >> ")),
-    "GST-103": int(input("Insert GST-103 score >> ")),
-    "GST-105": int(input("Insert GST-105 score >> "))
+    "MTH-101" : int(input("Enter the score for MTH-101 >> ")),
+    "CSC-101" : int(input("Enter the score for CSC-101 >> ")),
+    "CHM-101" : int(input("Enter the score for CHM-101 >> ")),
+    "PHY-101" : int(input("Enter the score for PHY-101 >> ")),
+    "PHY-103" : int(input("Enter the score for PHY-103 >> ")),
+    "STA-105" : int(input("Enter the score for STA-105 >> ")),
+    "GST-103" : int(input("Enter the score for GST-103 >> ")),
+    "GST-105" : int(input("Enter the score for GST-105 >> "))
+}    
+
+total_credit_unit = 28
+courses_cu = {
+    "MTH-101" : 3.5,
+    "CSC-101" : 3.5,
+    "CHM-101" : 3.5,
+    "PHY-101" : 3.5,
+    "PHY-103" : 3.5,
+    "STA-105" : 3.5,
+    "GST-103" : 3.5,
+    "GST-105" : 3.5
 }
 
-# dictionary of letter grades and their corresponding weight points
-grades = {
+letter_grade_range = {
     "A": 4.00,
     "AB": 3.50,
     "B": 3.25,
@@ -38,57 +33,72 @@ grades = {
     "F": 0.00
 }
 
-# create a table to store subject, score, letter grade and unit of each course
+def letter_grade_to_score(score):
+    if score >= 75:
+        return "A"
+    elif score >= 70:
+        return "AB"
+    elif score >= 65:
+        return "B"
+    elif score >= 60:
+        return "BC"
+    elif score >= 55:
+        return "C"
+    elif score >= 50:
+        return "CD"
+    elif score >= 45:
+        return "D"
+    elif score >= 40:
+        return "E"
+    else:
+        return "F"
+
+def get_letter_grade_to_gp(grade):
+    if grade == "A":
+        return 4.00
+    elif grade == "AB":
+        return 3.50
+    elif grade == "B":
+        return 3.25
+    elif grade == "BC":
+        return 3.00
+    elif grade == "C":
+        return 2.75
+    elif grade == "CD":
+        return 2.50
+    elif grade == "D":
+        return 2.25
+    elif grade == "E":
+        return 2.00
+    elif grade == "F":
+        return "0.00"
+
 table = []
 total_unit = 0
-
-# loop through the courses and calculate the unit of each subject/course
+course_num = 8
 for course, score in courses.items():
-    if score >= 75:
-        grade = "A"
-    elif score >= 70:
-        grade = "AB"
-    elif score >= 65:
-        grade = "B"
-    elif score >= 60:
-        grade = "BC"
-    elif score >= 55:
-        grade = "C"
-    elif score >= 50:
-        grade = "CD"
-    elif score >= 45:
-        grade = "D"
-    elif score >= 40:
-        grade = "E"
-    else:
-        grade = "F"
-    weight_point = grades[grade]
-    unit = weight_point * total_credit_unit / len(courses)
+    letter_grade = letter_grade_to_score(score)
+    weight_point = get_letter_grade_to_gp(letter_grade)
+    unit = float(weight_point) * float(total_credit_unit / course_num)
     total_unit += unit
-    table.append((course, score, grade, round(unit, 2)))
+    gpa = round(total_unit / total_credit_unit, 2)
+    # print(f"{course}: {score} ({letter_grade}) {weight_point}")
+    table.append((course, score, letter_grade, round(unit, 2)))
 
-    # calculate the grade point average and round to 2 decimal places
-    gpa = total_unit / total_credit_unit
-    gpa = round(gpa, 2)
+print("{:<15}{:<15}{:<15}{:<15}".format("Subject", "Score", "Letter Grade", "Unit"))
+for row in table:
+    print("{:<15}{:<15}{:<15}{:<15}".format(row[0], row[1], row[2], row[3]))
+    
+if gpa >= 3.50:
+    range = "Distinction"
+elif gpa >= 3.00:
+    range = "Upper Credit"
+elif gpa >= 2.50:
+    range = "Lower Credit"
+elif gpa >= 2.00:
+    range = "Pass"
+else:
+    range = "Fail"
 
-    # print the course table
-    print("{:<15}{:<15}{:<15}{:<15}".format("Subject", "Score", "Letter Grade", "Unit"))
-    for row in table:
-        print("{:<15}{:<15}{:<15}{:<15}".format(row[0], row[1], row[2], row[3]))
-
-    # determine the range of the grade point average
-    if gpa >= 3.50:
-        range = "Distinction"
-    elif gpa >= 3.00:
-        range = "Upper Credit"
-    elif gpa >= 2.50:
-        range = "Lower Credit"
-    elif gpa >= 2.00:
-        range = "Pass"
-    else:
-        range = "Fail"
-
-    # print the grade point average and the range
-    print("\nGrade Point Average: {}".format(gpa))
-    print("Range: {}".format(range))
-
+print(f"\nGrade Point Average: {gpa}")
+print(f"Range: {range}")
